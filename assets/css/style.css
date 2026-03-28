@@ -1,0 +1,84 @@
+* { box-sizing: border-box; }
+body, html { height: 100%; margin: 0; font-family: 'Segoe UI', Arial, sans-serif; background-color: #f0f2f5; color: #333; }
+
+/* Login */
+#authWrapper { display: flex; justify-content: center; align-items: center; height: 100vh; }
+.container-login { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 380px; text-align: center; }
+#toggleAuth { cursor: pointer; color: #2980b9; text-decoration: underline; margin-top: 15px; font-size: 14px; }
+
+/* Dashboard */
+.container-main { max-width: 1200px; margin: 20px auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+.header-main { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; margin-bottom: 20px; padding-bottom: 10px; }
+
+.balance-history-bar { 
+    display: flex; justify-content: center; gap: 40px; 
+    background: #fff9c4; padding: 15px; border-radius: 8px; 
+    margin-bottom: 20px; border: 1px solid #fbc02d; font-size: 16px;
+}
+
+.dashboard-grid { display: flex; gap: 20px; flex-wrap: wrap; }
+.caixa-section { flex: 2; min-width: 300px; background: #fafafa; padding: 20px; border-radius: 10px; border: 1px solid #e0e0e0; }
+.actions-section { flex: 1; min-width: 250px; display: flex; flex-direction: column; gap: 12px; background: #e3f2fd; padding: 20px; border-radius: 10px; justify-content: flex-start; }
+.clear-button { margin-top: auto; }
+
+/* Formulários */
+input, select { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
+button { border: none; border-radius: 6px; padding: 12px; cursor: pointer; font-weight: bold; transition: 0.2s; color: white; }
+.btn-main { background: #27ae60; width: 100%; font-size: 16px; }
+.btn-add { background: #34495e; width: 100%; }
+.save-button { background: #04a304; }
+.print-button { background: #34495e; }
+.clear-button { background: #e74c3c; }
+.logout-btn { background: #e74c3c; padding: 8px 15px; }
+
+/* Resultados */
+.result-box { margin-top: 20px; padding: 15px; background: #eee; border-radius: 8px; text-align: center; font-size: 18px; }
+.result-box.saldo-positivo { background: #2b813f; color: #fff; border: 1px solid #1e6b30; }
+.result-box.saldo-negativo { background: #ffcdd2; color: #c62828; border: 1px solid #ef9a9a; }
+
+/* Listas */
+ul { list-style: none; padding: 0; margin-top: 15px; max-height: 250px; overflow-y: auto; }
+li { padding: 8px; border-bottom: 1px solid #eee; font-size: 14px; background: white; margin-bottom: 4px; border-radius: 4px; }
+
+/* Botão remover item */
+li { display: flex; justify-content: space-between; align-items: center; }
+.btn-remove-item { 
+    background: transparent; color: #c0392b; border: none;
+    cursor: pointer; font-size: 13px; padding: 0 4px;
+    font-weight: bold; line-height: 1; flex-shrink: 0;
+}
+.btn-remove-item:hover { color: #e74c3c; }
+
+/* Histórico de sessões */
+.historico-container {
+    background: #f9f9f9; border: 1px solid #ddd;
+    border-radius: 8px; padding: 16px;
+}
+.hist-entry {
+    background: white; border: 1px solid #e0e0e0;
+    border-radius: 6px; padding: 10px 14px; margin-bottom: 8px;
+}
+.hist-entry-header {
+    display: flex; justify-content: space-between;
+    align-items: center; margin-bottom: 6px;
+}
+.hist-entry-vals {
+    display: flex; gap: 20px; font-size: 14px; flex-wrap: wrap;
+    align-items: center;
+}
+.hist-detail-toggle {
+    color: #2980b9; cursor: pointer; font-size: 12px;
+    text-decoration: underline;
+}
+.hist-entry ul { max-height: none; margin: 4px 0; }
+.hist-entry li { font-size: 12px; display: list-item; }
+
+/* Mensagem de erro inline no login */
+#authError { min-height: 18px; }
+
+/* Header actions com usuário logado */
+.header-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+@media print {
+    .no-print { display: none !important; }
+}
