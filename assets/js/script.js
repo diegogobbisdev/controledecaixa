@@ -59,7 +59,7 @@ function handleAuth() {
 
 function toggleAuthMode() {
     isLoginMode = !isLoginMode;
-    document.getElementById('loginTitle').innerText = isLoginMode ? 'Joiótica' : 'Novo Usuário';
+    document.getElementById('loginTitle').innerText = isLoginMode ? 'Sistema de Caixa' : 'Novo Usuário';
     document.getElementById('loginSubtitle').innerText = isLoginMode ? 'Acesse o Sistema de Caixa' : 'Crie sua conta de acesso';
     document.getElementById('toggleAuth').innerText = isLoginMode ? 'Cadastrar Novo Usuário' : 'Voltar ao Login';
     document.getElementById('confirmPassField').style.display = isLoginMode ? 'none' : 'block';
@@ -310,7 +310,7 @@ function imprimirRelatorio() {
         .join('') || '<li>Sem registros</li>';
 
     const html = `
-        <html><head><title>Relatório Joiótica</title>
+        <html><head><title>Relatório de Caixa</title>
         <style>
             body { font-family: Arial, sans-serif; padding: 24px; color: #222; }
             h2 { text-align:center; }
@@ -319,7 +319,7 @@ function imprimirRelatorio() {
             .total { font-size:16px; font-weight:bold; margin-top:10px; }
             .footer { text-align:center; margin-top:40px; }
         </style></head><body>
-            <h2>Joiótica — Relatório de Caixa</h2>
+            <h2>Relatório de Caixa</h2>
             <p><strong>Data:</strong> ${data} &nbsp;|&nbsp; <strong>Operador:</strong> ${currentUser}</p>
             <p><strong>Anterior Cofre:</strong> R$ ${fmt(valorAnteriorCofre)}</p>
             <h3>Caixa de Fora (Saídas)</h3>
