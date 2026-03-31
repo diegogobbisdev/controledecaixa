@@ -1,79 +1,120 @@
-# Sistema de Caixa
+# Sistema de Controle de Caixa
 
-Sistema web de fechamento de caixa com controle de saídas externas e saldo do cofre interno, com autenticação por usuário e histórico de sessões.
+## O Problema
 
----
+Ser desenvolvedor é resolver problemas reais. Em um projeto anterior, desenvolvi um mini sistema web de fechamento de caixa para a empresa onde trabalho, substituindo um processo antigo que apresentava muitos erros e inconsistências. Aquela solução facilitou o controle do caixa interno e das saídas externas, com autenticação por usuário, histórico de sessões e geração de relatórios para impressão.
 
-## Tecnologias utilizadas
-
-| Tecnologia | Versão / Tipo |
-|------------|--------------|
-| HTML5      | Semântico, sem frameworks |
-| CSS3       | Puro, sem bibliotecas externas |
-| JavaScript | Vanilla ES6+, sem frameworks |
-
-Não utiliza nenhuma dependência externa — todo o projeto roda diretamente no navegador, sem servidor ou build.
+Com o uso, surgiu uma nova necessidade: o controle de cheques pré-datados ainda era feito em uma planilha mal organizada, causando erros nos valores e perda de datas de depósito. Fui solicitado a resolver esse problema também. Em vez de criar algo separado, evoluí o sistema anterior, integrando o controle de cheques junto ao fechamento de caixa em uma solução única, mais completa e mais organizada para o fluxo de trabalho da empresa.
 
 ---
 
-## Estrutura de arquivos
+## A Solução
+
+Um sistema web completo de controle financeiro que roda diretamente no navegador, sem necessidade de servidor, banco de dados externo ou instalação. O sistema centraliza o fechamento de caixa diário, o controle de cheques pré-datados e a visualização de alertas em uma interface organizada com autenticação por usuário.
+
+---
+
+## Tecnologias Utilizadas
+
+| Tecnologia | Uso no projeto |
+|---|---|
+| HTML5 | Estrutura semântica das páginas |
+| CSS3 | Layout, responsividade e estilização |
+| JavaScript (Vanilla ES6+) | Toda a lógica de negócio e persistência |
+| localStorage | Armazenamento de dados no navegador |
+| sessionStorage | Controle de sessão do usuário logado |
+| jsPDF + jsPDF-AutoTable | Exportação de cheques em PDF |
+
+Nenhuma dependência de framework ou biblioteca de UI. O projeto roda completamente no navegador com abertura direta dos arquivos HTML.
+
+---
+
+## Estrutura de Arquivos
 
 ```
 Fechamento de caixa/
-├── index.html
+├── login.html                  — Tela de login e cadastro de usuários
+├── dasboard.html               — Layout principal com sidebar e navegação
+├── home.html                   — Pagina inicial com resumo e alertas
+├── fechamentocaixa.html        — Modulo de fechamento de caixa diario
+├── chequepredatado.html        — Modulo de controle de cheques pre-datados
 └── assets/
     ├── css/
-    │   └── style.css
+    │   ├── login.css           — Estilos da tela de acesso
+    │   ├── dashboard.css       — Estilos do layout principal
+    │   ├── home.css            — Estilos da pagina inicial
+    │   ├── style.css           — Estilos do fechamento de caixa
+    │   └── cheque.css          — Estilos do controle de cheques
     └── js/
-        └── script.js
+        ├── login.js            — Logica de autenticacao
+        ├── home.js             — Logica da pagina inicial
+        ├── script.js           — Logica do fechamento de caixa
+        └── cheque.js           — Logica do controle de cheques
 ```
-
----
-
-## HTML
-
-- Estrutura semântica com `header`, `main` e `section`
-- Formulários com inputs controlados via JavaScript (sem `action`)
-- Separação entre tela de login (`#authWrapper`) e dashboard (`#mainContainer`), alternadas via `display: none / block`
-- Atributo `onkeydown` para submissão do login com Enter
-- Classe `no-print` para ocultar elementos na impressão
-
----
-
-## CSS
-
-- **Flexbox** em toda a estrutura de layout (dashboard, header, listas, botões)
-- **`flex-direction: column` + `margin-top: auto`** para empurrar o botão "Limpar Lançamentos" para o rodapé da coluna de ações
-- **Classes dinâmicas** no resultado do cofre: `.saldo-positivo` (verde), `.saldo-negativo` (vermelho claro) e estado neutro `#eee` — aplicadas via JavaScript conforme o valor
-- **`overflow-y: auto` com `max-height`** nas listas de lançamentos para rolagem interna
-- **`@media print`** com `.no-print { display: none }` para relatório limpo ao imprimir
-- **`box-sizing: border-box`** global para consistência de espaçamentos
-- Responsividade básica via `flex-wrap: wrap` e `min-width` nas seções
-
----
-
-## JavaScript
-
-- **`localStorage`** para persistência de dados por usuário (sem banco de dados)
-  - Cada usuário é salvo como `jt_user_<nome>`, com senha e histórico de sessões
-  - Sessão ativa salva em `jt_session` para auto-login ao reabrir o browser
-- **Autenticação** com cadastro e login, senha ofuscada com `btoa` (uso local/intranet)
-- **Event listeners diretos** em cada botão de remoção (criados dentro de `renderItem`), capturando `val` e `idLista` via closure — elimina necessidade de event delegation
-- **Recálculo em tempo real** do `totalFora` e `saldoCofre` a cada adição ou remoção de lançamento
-- **Histórico de até 30 sessões** por usuário, com detalhe expansível de cada fechamento
-- **Impressão via `window.open`** gerando HTML estilizado em uma nova janela e chamando `window.print()` automaticamente
-- **`closest('li')`** para localizar e remover o item correto da lista ao clicar no botão ✕
 
 ---
 
 ## Funcionalidades
 
-- Login e cadastro de usuários
-- **Caixa de Fora** — registro de saídas externas com descrição e valor
-- **Caixa Interno (Cofre)** — entradas e saídas com saldo acumulado
-- Remoção individual de lançamentos com o botão ✕
-- Saldo do cofre com cor dinâmica (cinza / verde / vermelho)
-- Salvamento de fechamento diário com histórico completo
-- Limpeza de lançamentos do dia
-- Impressão de relatório formatado
-- Auto-login por sessão salva no navegador
+### Autenticacao
+
+- Cadastro de usuarios com validacao de senha e confirmacao
+- Login com verificacao de credenciais salvas no localStorage
+- Sessao ativa armazenada no sessionStorage — encerrada ao fechar o navegador
+- Protecao do dashboard: qualquer acesso sem sessao ativa redireciona para o login
+- Botao de sair encerra a sessao e retorna para a tela de login
+
+### Pagina Inicial
+
+- Exibe o ultimo total de saidas externas registrado
+- Exibe o ultimo saldo do cofre registrado
+- Exibe a data e hora do ultimo fechamento salvo
+- Lista todos os cheques com data de desconto igual ou anterior ao dia atual que ainda nao foram depositados
+- Cheques do dia recebem destaque visual diferenciado dos cheques em atraso
+
+### Fechamento de Caixa
+
+- Registro de saidas externas (Caixa de Fora) com descricao e valor
+- Registro de movimentacoes internas do cofre com opcao de entrada ou saida
+- Remocao individual de qualquer lancamento com recalculo automatico dos totais
+- Saldo do cofre com indicacao visual de positivo, negativo ou neutro
+- Salvamento do fechamento diario com data, totais e detalhamento completo de cada lancamento
+- Historico de ate 30 sessoes anteriores com visualizacao expandivel por fechamento
+- Impressao de relatorio formatado em nova janela com layout limpo
+- Limpeza total dos lancamentos e do historico, zerando todos os saldos
+
+### Controle de Cheques Pre-Datados
+
+- Cadastro de cheques com emitente, numero, agencia, data de entrega, data de desconto e valor
+- Tabela ordenada automaticamente por data de desconto
+- Marcacao de cheques como depositados com indicacao visual na linha
+- Edicao de qualquer cheque sem perda dos demais dados
+- Exclusao individual com confirmacao
+- Calculo automatico do total pendente (excluindo depositados)
+- Exportacao da tabela completa em PDF com total pendente ao final
+
+---
+
+## Como Executar
+
+1. Clone ou baixe o repositorio
+2. Abra o arquivo `login.html` diretamente no navegador
+3. Crie uma conta na aba "Criar Conta"
+4. Faca login e utilize o sistema normalmente
+
+Nao e necessario instalar nada, configurar servidor ou rodar comandos. O sistema funciona completamente offline.
+
+---
+
+## Decisoes Tecnicas
+
+**Persistencia sem servidor:** todos os dados sao salvos no localStorage do navegador, o que permite uso offline e sem infraestrutura. A escolha e adequada para uso em maquina unica ou intranet local.
+
+**SPA com iframe:** o dashboard carrega cada modulo em um iframe, isolando o estado de cada pagina e permitindo navegacao sem recarregar o layout principal.
+
+**Autenticacao por sessionStorage:** a sessao e deliberadamente vinculada ao sessionStorage para expirar ao fechar o navegador, sem necessidade de logout manual em uso diario.
+
+**Ordenacao automatica de cheques:** a cada insercao, a tabela e reordenada por data de desconto, garantindo que os cheques mais proximos do vencimento fiquem sempre no topo.
+
+**Historico limitado a 30 sessoes:** o limite evita crescimento indefinido do localStorage mantendo rastreabilidade suficiente para uso pratico.
+"# controledecaixa"  
