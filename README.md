@@ -8,7 +8,7 @@ Com o uso, surgiu uma nova necessidade: o controle de cheques pré-datados ainda
 
 ---
 
-## A Solução
+## Solução
 
 Um sistema web completo de controle financeiro que roda diretamente no navegador, sem necessidade de servidor, banco de dados externo ou instalação. O sistema centraliza o fechamento de caixa diário, o controle de cheques pré-datados e a visualização de alertas em uma interface organizada com autenticação por usuário.
 
