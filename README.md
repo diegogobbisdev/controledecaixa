@@ -117,4 +117,3 @@ Nao e necessario instalar nada, configurar servidor ou rodar comandos. O sistema
 **Ordenacao automatica de cheques:** a cada insercao, a tabela e reordenada por data de desconto, garantindo que os cheques mais proximos do vencimento fiquem sempre no topo.
 
 **Historico limitado a 30 sessoes:** o limite evita crescimento indefinido do localStorage mantendo rastreabilidade suficiente para uso pratico.
-"# controledecaixa"  
