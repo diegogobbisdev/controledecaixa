@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cheques Pré-Datados</title>
+    <link rel="stylesheet" href="assets/css/cheque.css">
+</head>
+<body>
+
+    <button id="btn-salvar-pdf" onclick="salvarComoPDF()">Salvar como PDF</button>
+
+    <h1>Planilha de Cheques Pré-Datados</h1>
+
+    <form id="chequeForm">
+        <table class="form-table">
+            <thead>
+                <tr>
+                    <th>Emitente</th>
+                    <th>Nº do Cheque</th>
+                    <th>Agência</th>
+                    <th>Data da Entrega</th>
+                    <th>Data de Desconto</th>
+                    <th>Valor</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input type="text"   id="emitente"      placeholder="Nome do Emitente"  required></td>
+                    <td><input type="text"   id="numeroCheque"  placeholder="Número do Cheque"  required></td>
+                    <td><input type="text"   id="agencia"       placeholder="Agência"           required></td>
+                    <td><input type="date"   id="dataEntrega"                                   required></td>
+                    <td><input type="date"   id="dataDesconto"                                  required></td>
+                    <td><input type="number" id="valor"         placeholder="Valor" step="0.01" min="0.01" required></td>
+                </tr>
+            </tbody>
+        </table>
+        <button type="button" class="btn-cadastrar" onclick="adicionarCheque()">Cadastrar Cheque</button>
+    </form>
+
+    <div id="chequeList">
+        <h2>Cheques Cadastrados</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Depositado</th>
+                    <th>Emitente</th>
+                    <th>Nº do Cheque</th>
+                    <th>Agência</th>
+                    <th>Data da Entrega</th>
+                    <th>Data de Desconto</th>
+                    <th>Valor</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="chequeListBody"></tbody>
+        </table>
+    </div>
+
+    <div id="totalValor">
+        Total dos Valores: R$ <span id="total">0,00</span>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.24/jspdf.plugin.autotable.min.js"></script>
+    <script src="assets/js/cheque.js"></script>
+</body>
+</html>

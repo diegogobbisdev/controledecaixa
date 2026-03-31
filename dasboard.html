@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle de Caixa</title>
+    <link rel="stylesheet" href="assets/css/dashboard.css">
+</head>
+<body>
+
+    <div id="appLayout">
+
+        <!-- SIDEBAR -->
+        <aside id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-brand">
+                    <span class="sidebar-logo">💰</span>
+                    <span class="sidebar-title">Caixa</span>
+                </div>
+                <div class="sidebar-usuario">
+                    <span class="usuario-icon">👤</span>
+                    <span class="usuario-nome" id="nomeUsuario"></span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-page="home">
+                    <i class="nav-icon">🏠</i>
+                    <span class="nav-label">Página Inicial</span>
+                </a>
+                <a href="#" class="nav-item" data-page="fechamento">
+                    <i class="nav-icon">🏦</i>
+                    <span class="nav-label">Fechamento de Caixa</span>
+                </a>
+                <a href="#" class="nav-item" data-page="cheque">
+                    <i class="nav-icon">📋</i>
+                    <span class="nav-label">Controle de Cheque</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="btn-logout" onclick="fazerLogout(event)">
+                    <span class="nav-label">Sair</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- CONTEÚDO PRINCIPAL -->
+        <div id="mainContent" class="main-content">
+
+            <header class="topbar">
+                <button id="toggleSidebar" class="toggle-btn" onclick="toggleSidebar()">☰</button>
+                <span class="topbar-title" id="pageTitle">Página Inicial</span>
+            </header>
+
+            <main class="page-content">
+                <iframe id="pageFrame" class="page-frame" src="" frameborder="0"></iframe>
+                <div id="pageEmpty" class="page-empty">
+                    <span>👈</span>
+                    <p>Selecione uma opção no menu lateral</p>
+                </div>
+            </main>
+
+        </div>
+
+    </div>
+
+    <script>
+        // Verifica sessão — redireciona para login se não estiver logado
+        (function() {
+            var sessao = sessionStorage.getItem('jt_sessao');
+            if (!sessao) {
+                window.location.href = 'login.html';
+                return;
+            }
+            var dados = JSON.parse(sessao);
+            document.getElementById('nomeUsuario').innerText = dados.usuario || '';
+        })();
+
+        function fazerLogout(e) {
+            e.preventDefault();
+            sessionStorage.removeItem('jt_sessao');
+            window.location.href = 'login.html';
+        }
+
+        var pages = {
+            'home':       'home.html',
+            'fechamento': 'fechamentocaixa.html',
+            'cheque':     'chequepredatado.html'
+        };
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('collapsed');
+        }
+
+        function navigateTo(page, label) {
+            var frame = document.getElementById('pageFrame');
+            var empty = document.getElementById('pageEmpty');
+            var src   = pages[page] || '';
+
+            document.getElementById('pageTitle').innerText = label;
+
+            if (src) {
+                frame.src = src;
+                frame.style.display = 'block';
+                empty.style.display = 'none';
+            } else {
+                frame.src = '';
+                frame.style.display = 'none';
+                empty.style.display = 'flex';
+            }
+        }
+
+        document.querySelectorAll('.nav-item[data-page]').forEach(function(item) {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelectorAll('.nav-item[data-page]').forEach(function(i) { i.classList.remove('active'); });
+                item.classList.add('active');
+                navigateTo(item.dataset.page, item.querySelector('.nav-label').innerText);
+            });
+        });
+
+        navigateTo('home', 'Página Inicial');
+    </script>
+</body>
+</html>

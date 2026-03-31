@@ -1,0 +1,133 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f0f2f5;
+    color: #333;
+    padding: 28px;
+}
+
+h1 {
+    font-size: 20px;
+    color: #1e2a38;
+    margin-bottom: 20px;
+}
+
+/* ============================================================
+   CARDS DE SALDO
+   ============================================================ */
+.card-group {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+}
+
+.card {
+    flex: 1;
+    min-width: 180px;
+    padding: 20px 24px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.card-blue  { background: #1e2a38; color: #fff; }
+.card-green { background: #27ae60; color: #fff; }
+.card-gray  { background: #fff;    color: #1e2a38; border: 1px solid #e0e0e0; }
+
+.card-label {
+    font-size: 12px;
+    opacity: 0.8;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.card-value {
+    font-size: 26px;
+    font-weight: 700;
+}
+
+.card-value--sm {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+/* ============================================================
+   SEÇÃO DE CHEQUES
+   ============================================================ */
+.cheques-section h2 {
+    font-size: 15px;
+    color: #1e2a38;
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.cheque-card {
+    background: #fff;
+    border-left: 4px solid #e74c3c;
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.cheque-card.hoje {
+    border-left-color: #f39c12;
+}
+
+.cheque-info {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.cheque-emitente {
+    font-weight: 700;
+    font-size: 14px;
+    color: #1e2a38;
+}
+
+.cheque-detalhe {
+    font-size: 12px;
+    color: #777;
+}
+
+.cheque-valor {
+    font-size: 18px;
+    font-weight: 700;
+    color: #e74c3c;
+}
+
+.cheque-card.hoje .cheque-valor {
+    color: #f39c12;
+}
+
+.badge {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 20px;
+    text-transform: uppercase;
+}
+
+.badge-atraso { background: #ffebee; color: #c62828; }
+.badge-hoje   { background: #fff8e1; color: #f57f17; }
+
+.empty-msg {
+    background: #fff;
+    border-radius: 10px;
+    padding: 24px;
+    text-align: center;
+    color: #aaa;
+    font-size: 14px;
+    border: 1px solid #e0e0e0;
+}

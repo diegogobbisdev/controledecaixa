@@ -1,0 +1,162 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #1e2a38 0%, #2c3e50 60%, #1a252f 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ============================================================
+   CARD CENTRAL
+   ============================================================ */
+.login-page {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+
+.login-card {
+    background: #fff;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 400px;
+    padding: 36px 32px 32px;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.35);
+}
+
+/* ============================================================
+   BRAND
+   ============================================================ */
+.login-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 28px;
+    justify-content: center;
+}
+
+.brand-icon {
+    font-size: 32px;
+}
+
+.brand-name {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1e2a38;
+    letter-spacing: 0.3px;
+}
+
+/* ============================================================
+   ABAS
+   ============================================================ */
+.tabs {
+    display: flex;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #e0e0e0;
+    margin-bottom: 24px;
+}
+
+.tab {
+    flex: 1;
+    padding: 10px;
+    background: #f5f6f8;
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    color: #777;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+
+.tab.active {
+    background: #1e2a38;
+    color: #fff;
+}
+
+.tab:hover:not(.active) {
+    background: #e8eaed;
+    color: #333;
+}
+
+/* ============================================================
+   FORMULÁRIO
+   ============================================================ */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 14px;
+}
+
+.form-group label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #444;
+}
+
+.form-group input {
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+    font-size: 14px;
+    color: #333;
+    background: #fff;
+    transition: border-color 0.2s;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #2980b9;
+}
+
+/* ============================================================
+   BOTÃO PRINCIPAL
+   ============================================================ */
+.btn-primary {
+    width: 100%;
+    padding: 12px;
+    margin-top: 6px;
+    background: #27ae60;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-primary:hover {
+    background: #219150;
+}
+
+/* ============================================================
+   MENSAGENS
+   ============================================================ */
+.msg {
+    font-size: 13px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    margin-bottom: 14px;
+    display: none;
+}
+
+.msg.erro {
+    display: block;
+    background: #ffebee;
+    color: #c62828;
+    border: 1px solid #ffcdd2;
+}
+
+.msg.sucesso {
+    display: block;
+    background: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #c8e6c9;
+}

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fechamento de Caixa</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+    <div id="mainContainer">
+
+        <div class="header-main">
+            <h1>Fechamento de Caixa</h1>
+            <div class="header-actions no-print">
+                <input type="date" id="dataAtual">
+            </div>
+        </div>
+
+        <section class="balance-bar">
+            <div class="balance-item">Anterior Fora: <strong>R$ <span id="prevFora">0.00</span></strong></div>
+            <div class="balance-item">Anterior Cofre: <strong>R$ <span id="prevCofre">0.00</span></strong></div>
+            <div class="balance-item no-print" onclick="toggleHistorico()">📋 Ver histórico</div>
+        </section>
+
+        <div id="historicoPanel" style="display:none;">
+            <div class="historico-container">
+                <h4>Histórico de Sessões Salvas</h4>
+                <div id="historicoLista"></div>
+            </div>
+        </div>
+
+        <main class="dashboard-grid">
+
+            <div class="caixa-section">
+                <h3>Caixa de Fora (Saídas)</h3>
+                <div class="form-group no-print">
+                    <input type="text"   id="referenciaFora" placeholder="Descrição">
+                    <input type="number" id="valorFora"      placeholder="R$">
+                    <button class="btn-add" onclick="adicionarRetirada('fora')">Registrar</button>
+                </div>
+                <ul id="listaReferenciasFora"></ul>
+                <div class="result-box">
+                    Total Saídas: <strong>R$ <span id="totalRetiradoFora">0.00</span></strong>
+                </div>
+            </div>
+
+            <div class="caixa-section">
+                <h3>Caixa Interno (Cofre)</h3>
+                <div class="form-group no-print">
+                    <input type="text"   id="referenciaCofre" placeholder="Descrição">
+                    <input type="number" id="valorCofre"      placeholder="R$">
+                    <select id="tipoOperacao">
+                        <option value="adicionar">Entrada (+)</option>
+                        <option value="subtrair">Saída (-)</option>
+                    </select>
+                    <button class="btn-add" onclick="adicionarRetirada('cofre')">Lançar</button>
+                </div>
+                <ul id="listaReferenciasCofre"></ul>
+                <div class="result-box">
+                    Saldo Final: <strong>R$ <span id="saldoCofre">0.00</span></strong>
+                </div>
+            </div>
+
+            <div class="actions-section no-print">
+                <h3>Ações</h3>
+                <button class="save-button"  onclick="salvarFechamento()">💾 Salvar Saldos</button>
+                <button class="print-button" onclick="imprimirRelatorio()">🖨️ Imprimir</button>
+                <button class="clear-button" onclick="limparLancamentos()">🗑️ Limpar Lançamentos</button>
+            </div>
+
+        </main>
+
+    </div>
+
+    <script src="assets/js/script.js"></script>
+</body>
+</html>

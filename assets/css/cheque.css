@@ -1,0 +1,183 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: Arial, sans-serif;
+    padding: 24px;
+    background: #f0f2f5;
+    color: #222;
+}
+
+h1 {
+    font-size: 22px;
+    margin-bottom: 20px;
+    color: #1e2a38;
+}
+
+h2 {
+    font-size: 16px;
+    margin: 24px 0 10px;
+    color: #1e2a38;
+}
+
+/* ============================================================
+   TABELAS
+   ============================================================ */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+
+th, td {
+    padding: 10px 12px;
+    text-align: left;
+    border: 1px solid #e0e0e0;
+    font-size: 13px;
+}
+
+th {
+    background-color: #1e2a38;
+    color: #fff;
+    font-weight: 600;
+}
+
+tbody tr:nth-child(even) {
+    background: #f9f9f9;
+}
+
+/* ============================================================
+   INPUTS
+   ============================================================ */
+input[type="text"],
+input[type="date"],
+input[type="number"] {
+    width: 100%;
+    padding: 6px 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 13px;
+}
+
+/* ============================================================
+   BOTÕES
+   ============================================================ */
+button {
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.2s;
+}
+
+.btn-cadastrar {
+    margin-top: 14px;
+    padding: 10px 24px;
+    background-color: #27ae60;
+    color: #fff;
+    font-size: 14px;
+}
+
+.btn-cadastrar:hover {
+    background-color: #219150;
+}
+
+button.btn-deletar {
+    background-color: #e74c3c;
+    color: #fff;
+    padding: 5px 10px;
+    font-size: 12px;
+}
+
+button.btn-deletar:hover {
+    background-color: #c0392b;
+}
+
+#btn-salvar-pdf {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    background-color: #2980b9;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 13px;
+    z-index: 100;
+}
+
+#btn-salvar-pdf:hover {
+    background-color: #1f6391;
+}
+
+/* ============================================================
+   BOTÃO EDITAR
+   ============================================================ */
+button.btn-editar {
+    background-color: #2980b9;
+    color: #fff;
+    padding: 5px 10px;
+    font-size: 12px;
+}
+
+button.btn-editar:hover {
+    background-color: #1f6391;
+}
+
+.td-acoes {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+/* ============================================================
+   BOTÃO DEPOSITAR
+   ============================================================ */
+.td-depositado { text-align: center; }
+
+button.btn-depositar {
+    background-color: #7f8c8d;
+    color: #fff;
+    padding: 5px 12px;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+button.btn-depositar:hover {
+    background-color: #636e72;
+}
+
+button.btn-depositado {
+    background-color: #27ae60;
+    cursor: default;
+}
+
+button.btn-depositado:hover {
+    background-color: #219150;
+}
+
+/* Linha depositada — texto esmaecido com risco */
+tr.linha-depositada td {
+    opacity: 0.5;
+    text-decoration: line-through;
+}
+
+tr.linha-depositada .td-depositado,
+tr.linha-depositada .td-acoes {
+    text-decoration: none;
+    opacity: 1;
+}
+
+tr.linha-depositada .btn-depositado {
+    text-decoration: none;
+}
+
+/* ============================================================
+   TOTAL
+   ============================================================ */
+#totalValor {
+    margin-top: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #1e2a38;
+}

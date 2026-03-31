@@ -2,13 +2,6 @@
 // UTILITÁRIOS
 // ============================================================
 
-function hashPass(pass) { return btoa(unescape(encodeURIComponent(pass))); }
-
-function showError(elId, msg) {
-    const el = document.getElementById(elId);
-    if (el) el.innerText = msg;
-}
-
 function fmt(val) {
     return parseFloat(val || 0).toFixed(2);
 }
@@ -16,79 +9,16 @@ function fmt(val) {
 // ============================================================
 // ESTADO GLOBAL
 // ============================================================
-let isLoginMode = true;
-let currentUser = null;
 let totalFora = 0;
 let saldoCofre = 0;
 let valorAnteriorCofre = 0;
 let valorAnteriorFora = 0;
 
 // ============================================================
-// AUTENTICAÇÃO
-// ============================================================
-function handleAuth() {
-    const user = document.getElementById('username').value.trim();
-    const pass = document.getElementById('password').value;
-    showError('authError', '');
-
-    if (!user || !pass) return showError('authError', 'Preencha todos os campos.');
-
-    if (isLoginMode) {
-        const stored = localStorage.getItem(`jt_user_${user}`);
-        if (!stored) return showError('authError', 'Usuário não encontrado.');
-        const data = JSON.parse(stored);
-        if (data.password !== hashPass(pass)) return showError('authError', 'Senha incorreta.');
-
-        localStorage.setItem('jt_session', user);
-        startApp(user);
-
-    } else {
-        const confirm = document.getElementById('confirmPassword').value;
-        if (pass.length < 4) return showError('authError', 'Senha deve ter ao menos 4 caracteres.');
-        if (pass !== confirm) return showError('authError', 'As senhas não coincidem.');
-        if (localStorage.getItem(`jt_user_${user}`)) return showError('authError', 'Usuário já existe.');
-
-        localStorage.setItem(`jt_user_${user}`, JSON.stringify({
-            password: hashPass(pass),
-            sessions: []
-        }));
-        alert('Conta criada! Faça o login.');
-        toggleAuthMode();
-    }
-}
-
-function toggleAuthMode() {
-    isLoginMode = !isLoginMode;
-    document.getElementById('loginTitle').innerText = isLoginMode ? 'Sistema de Caixa' : 'Novo Usuário';
-    document.getElementById('loginSubtitle').innerText = isLoginMode ? 'Acesse o Sistema de Caixa' : 'Crie sua conta de acesso';
-    document.getElementById('toggleAuth').innerText = isLoginMode ? 'Cadastrar Novo Usuário' : 'Voltar ao Login';
-    document.getElementById('confirmPassField').style.display = isLoginMode ? 'none' : 'block';
-    document.getElementById('authError').innerText = '';
-    document.querySelector('.btn-main').innerText = isLoginMode ? 'Entrar' : 'Criar Conta';
-}
-
-function logout() {
-    if (totalFora > 0 || saldoCofre !== valorAnteriorCofre) {
-        if (!confirm('Você tem lançamentos não salvos. Sair mesmo assim?')) return;
-    }
-    localStorage.removeItem('jt_session');
-    currentUser = null;
-    document.getElementById('mainContainer').style.display = 'none';
-    document.getElementById('authWrapper').style.display = 'flex';
-    document.getElementById('username').value = '';
-    document.getElementById('password').value = '';
-    showError('authError', '');
-}
-
-// ============================================================
 // INICIALIZAÇÃO DO APP
 // ============================================================
-function startApp(user) {
-    currentUser = user;
-    document.getElementById('authWrapper').style.display = 'none';
-    document.getElementById('mainContainer').style.display = 'block';
+function startApp() {
     document.getElementById('dataAtual').value = new Date().toISOString().split('T')[0];
-    document.getElementById('loggedUserLabel').innerText = 'Operador: ' + user;
 
     const userData = getUserData();
     const sessions = userData.sessions || [];
@@ -110,16 +40,18 @@ function startApp(user) {
     renderHistorico();
 }
 
+// ============================================================
+// STORAGE
+// ============================================================
 function getUserData() {
-    const raw = localStorage.getItem(`jt_user_${currentUser}`);
+    const raw = localStorage.getItem('jt_caixa');
     return raw ? JSON.parse(raw) : { sessions: [] };
 }
 
 function saveUserData(data) {
-    const existing = getUserData();
-    data.password = existing.password;
-    localStorage.setItem(`jt_user_${currentUser}`, JSON.stringify(data));
+    localStorage.setItem('jt_caixa', JSON.stringify(data));
 }
+
 
 // ============================================================
 // MOVIMENTAÇÕES
@@ -137,7 +69,7 @@ function adicionarRetirada(caixa) {
         renderItem('listaReferenciasFora', ref, val);
 
         document.getElementById('referenciaFora').value = '';
-        document.getElementById('valorFora').value = '';
+        document.getElementById('valorFora').value      = '';
 
     } else {
         const ref = document.getElementById('referenciaCofre').value.trim();
@@ -152,7 +84,7 @@ function adicionarRetirada(caixa) {
         renderItem('listaReferenciasCofre', ref, ajuste);
 
         document.getElementById('referenciaCofre').value = '';
-        document.getElementById('valorCofre').value = '';
+        document.getElementById('valorCofre').value      = '';
     }
     atualizarTelas();
 }
@@ -202,15 +134,22 @@ function atualizarTelas() {
 // LIMPAR LANÇAMENTOS
 // ============================================================
 function limparLancamentos() {
-    if (!confirm('Isso apagará todos os lançamentos de hoje. Confirmar?')) return;
+    if (!confirm('Isso apagará todos os lançamentos e o histórico completo. Confirmar?')) return;
 
     document.getElementById('listaReferenciasFora').innerHTML  = '';
     document.getElementById('listaReferenciasCofre').innerHTML = '';
 
-    totalFora  = 0;
-    saldoCofre = valorAnteriorCofre;
+    totalFora          = 0;
+    saldoCofre         = 0;
+    valorAnteriorFora  = 0;
+    valorAnteriorCofre = 0;
 
+    document.getElementById('prevFora').innerText  = '0.00';
+    document.getElementById('prevCofre').innerText = '0.00';
+
+    saveUserData({ sessions: [] });
     atualizarTelas();
+    renderHistorico();
 }
 
 // ============================================================
@@ -320,7 +259,7 @@ function imprimirRelatorio() {
             .footer { text-align:center; margin-top:40px; }
         </style></head><body>
             <h2>Relatório de Caixa</h2>
-            <p><strong>Data:</strong> ${data} &nbsp;|&nbsp; <strong>Operador:</strong> ${currentUser}</p>
+            <p><strong>Data:</strong> ${data}</p>
             <p><strong>Anterior Cofre:</strong> R$ ${fmt(valorAnteriorCofre)}</p>
             <h3>Caixa de Fora (Saídas)</h3>
             <ul>${listaFora}</ul>
@@ -338,13 +277,8 @@ function imprimirRelatorio() {
 }
 
 // ============================================================
-// AUTO-LOGIN
+// INICIALIZAÇÃO
 // ============================================================
 window.onload = function () {
-    const saved = localStorage.getItem('jt_session');
-    if (saved && localStorage.getItem(`jt_user_${saved}`)) {
-        startApp(saved);
-    } else {
-        document.getElementById('authWrapper').style.display = 'flex';
-    }
+    startApp();
 };
